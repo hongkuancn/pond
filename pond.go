@@ -499,9 +499,6 @@ func (p *WorkerPool) incrementWorkerCount() bool {
 
 func (p *WorkerPool) decrementWorkerCount() bool {
 
-	p.mutex.Lock()
-	defer p.mutex.Unlock()
-
 	if p.IdleWorkers() <= 0 || p.RunningWorkers() <= p.minWorkers || p.Stopped() {
 		return false
 	}
@@ -516,9 +513,6 @@ func (p *WorkerPool) decrementWorkerCount() bool {
 }
 
 func (p *WorkerPool) resetWorkerCount() {
-
-	p.mutex.Lock()
-	defer p.mutex.Unlock()
 
 	// Reset worker count
 	atomic.StoreInt32(&p.workerCount, 0)
